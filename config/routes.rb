@@ -1,7 +1,10 @@
 Pixtr::Application.routes.draw do
-  root "galleries#index"
+  root "homes#show"
   resources :galleries do
-    resources :images, shallow: true
+    resources :images, only: [:new, :create]
   end
-end
 
+   resources :images, except: [:index, :new, :create] do
+	resources :comments, only:[:create,:show]
+end
+end
