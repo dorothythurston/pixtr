@@ -1,6 +1,15 @@
 <h2>New Image</h2>
+
 <%= form_for([@gallery, @image]) do |form| %>
-  <div>
+  <% if @image.errors.any? %>
+  <p>Could not save for the following reasons:</p>
+  <ul>
+   <% @image.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <%end%>
+</ul>
+<%end%>
+<div>
   <%= form.text_field :name, placeholder: "Name"%>
 </div>
 <div>
@@ -9,5 +18,5 @@
 <div>
   <%= form.text_field :url, placeholder: "Url"%>
 </div>
-  <%= form.submit "Create Image" %> 
+<%= form.submit "Create Image" %> 
 <% end %>

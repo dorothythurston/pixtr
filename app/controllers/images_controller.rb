@@ -5,16 +5,20 @@ class ImagesController < ApplicationController
   end
 
   def create
-    gallery = current_user.galleries.find(params[:gallery_id])
-    image = gallery.images.create(image_params)
-    redirect_to gallery
+    @gallery = current_user.galleries.find(params[:gallery_id])
+    @image = @gallery.images.create(image_params)
+    if @image.save
+      redirect_to @gallery
+    else
+     render :new
+    end
   end
 
   def show
     @image = Image.find(params[:id])
     @gallery = @image.gallery
     @comment = Comment.new
-    @comments = @image.comments
+    @comments = @image.comments.recent
   end
 
    def edit

@@ -4,8 +4,12 @@ class CommentsController < ApplicationController
 
   def create
     image = Image.find(params[:image_id])
-    image.comments.create(comment_params)
+    comment =image.comments.new(comment_params)
+    if comment.save
     redirect_to image
+    else
+      redirect_to image, alert: "Cannot comment with an empty comment"
+    end
   end
 
   private
