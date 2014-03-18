@@ -5,18 +5,14 @@
 <%end%>
 <%= link_to "Back to Gallery", @gallery  %>
 <p><%=@image.description%></p>
-<% @comments.each do |comment|%>
-  <div>
-  <%= comment.user.email %> said:
-  <%=comment.body %>
-  <%= time_ago_in_words(comment.created_at) %> ago
-</div>
-<%end%>
-<%if signed_in?%>
-  <%= form_for([@image, @comment]) do |form| %>
-  <%= form.text_area :body %>
-<%= form.submit "Comment" %>
-<%end%>
-<%else%>
-  <% link_to "Sign in", sign_in_path  %> to comment
-<%end%>
+
+  <%if signed_in?%>
+    <%= form_for([@image, @comment]) do |form| %>
+    <%= form.text_area :body %>
+  <%= form.submit "Comment" %>
+  <%end%>
+  <%else%>
+    <% link_to "Sign in", sign_in_path  %> to comment
+  <%end%>
+
+  <%= render  @comments%>

@@ -1,5 +1,6 @@
 <h2>Edit Image</h2>
 <%= form_for(@image) do |form| %>
+  <%= render 'form_errors', target: @image %>
   <div>
   <%= form.text_field :name%>
 </div>
