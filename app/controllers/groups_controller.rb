@@ -1,4 +1,4 @@
-class GroupsController <ApplicationController
+class GroupsController < ApplicationController
   before_action :authorize
 
  def index

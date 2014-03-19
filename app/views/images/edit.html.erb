@@ -10,5 +10,9 @@
 <div>
   <%= form.text_field :url%>
 </div>
+<div>
+  <%= form.collection_check_boxes :group_ids, @groups, :id, :name %>
+</div>
   <%= form.submit "Edit Image" %> 
 <% end %>
+
