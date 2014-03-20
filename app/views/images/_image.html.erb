@@ -1,3 +1,4 @@
 <div>
   <%= link_to image_tag(image.url), image %>
+  by: <%= link_to image.user.email, image.user %>
 </div>
