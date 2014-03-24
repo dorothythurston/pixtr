@@ -1,10 +1,17 @@
 Pixtr::Application.routes.draw do
   root "homes#show"
+  resource :dashboard, only: [:show]
   resources :galleries do
     resources :images, only: [:new, :create]
   end
 
-  resources :groups
+  resources :groups do
+    member do
+      post "join" => "group_memberships#create"
+
+      delete "leave" => "group_memberships#destroy"
+    end
+  end
 
   resources :users, only: [:show] do
     member do
@@ -14,6 +21,10 @@ Pixtr::Application.routes.draw do
   end
 
   resources :images, except: [:index, :new, :create] do
-	resources :comments, only:[:create,:show]
+    resources :comments, only:[:create,:show]
+    member do
+      post "like" => "likes#create"
+      delete "unlike" => "likes#destroy"
+    end
   end
 end
