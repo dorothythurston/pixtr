@@ -1,5 +1,3 @@
-
-
 class User < ActiveRecord::Base
 
   include Clearance::User
@@ -7,7 +5,9 @@ class User < ActiveRecord::Base
   has_many :activities
   has_many :likes, dependent: :destroy
 
-  has_many :liked_images, through: :likes, source: :image
+  has_many :liked_images, through: :likes, source: :likable, source_type: 'Image'
+
+  has_many :liked_galleries, through: :likes, source: :likable, source_type: 'Gallery'
 
   has_many :galleries, dependent: :destroy
   has_many :images, through: :galleries
@@ -28,14 +28,17 @@ class User < ActiveRecord::Base
 
   has_many :followers, through: :follower_relationships
 
-  def follow(user)
-    follow = followed_user_relationships.create(followed_user: user)
-
+  def notify_follower(subject, type)
     followers.each do |follower|
       follower.activities.create(
-        subject: follow,
-        type: 'FollowUserActivity')
+        subject: subject,
+        type: type)
     end
+  end
+
+  def follow(user)
+    follow = followed_user_relationships.create(followed_user: user)
+    notify_follower(follow, 'FollowUserActivity')
   end
 
   def following?(user)
@@ -48,12 +51,7 @@ class User < ActiveRecord::Base
 
   def join(group)
     join_group = group_memberships.create(group: group)
-
-    followers.each do |follower|
-      follower.activities.create(
-        subject: join_group,
-        type: 'JoinGroupActivity')
-    end
+    notify_follower(join_group, 'JoinGroupActivity')
   end
 
   def member?(group)
@@ -64,22 +62,16 @@ class User < ActiveRecord::Base
     groups.destroy group
   end
 
-  def liked?(image)
-    liked_image_ids.include? image.id
+  def liked?(target)
+    likes.exists?(likable: target)
   end
 
-  def like(image)
-    like = likes.create(image: image)
-
-    followers.each do |follower|
-      follower.activities.create(
-        subject: like,
-        type: 'LikeActivity')
-
-    end
+  def like(target)
+    like = likes.create(likable: target)
+    notify_follower(like, 'LikeActivity')
   end
 
-  def unlike(image)
-    liked_images.destroy image
+  def unlike(target)
+    likes.find_by(likable: target).destroy
   end
 end

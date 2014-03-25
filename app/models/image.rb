@@ -7,7 +7,7 @@ class Image < ActiveRecord::Base
   validates :name, presence: true
   validates :description, presence: true
   validates :url, presence: true
-  has_many :likes, dependent: :destroy
+  has_many :likes, as: :likable, dependent: :destroy
 
   has_many :user_likes, through: :likes, source: :user
 

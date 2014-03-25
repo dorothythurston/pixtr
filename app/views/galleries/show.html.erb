@@ -1,4 +1,11 @@
 <h1><%= @gallery.name %></h1>
+<%if signed_in?%>
+  <% if current_user.liked? @gallery %>
+    <%= button_to "Unlike Gallery", unlike_gallery_path(@gallery), method: :delete%>
+  <%else%>
+    <%= button_to "Like Gallery", like_gallery_path(@gallery)%>
+  <%end%>
+<%end%>
 <% if @gallery.user == current_user %>
   <nav>
     <%=link_to "Edit", edit_gallery_path(@gallery.id) %>
