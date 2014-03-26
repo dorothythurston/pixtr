@@ -8,14 +8,18 @@
   <p><%=@image.description%></p>
   <p> Added by: <%= link_to  @image.user.email, @image.user %></p>
   <p> Added on: <%= @image.created_at.to_date %></p>
-
+  <div id= "like_count">
+    <p><%=pluralize(@image.likes.count, "like")%></p> 
+  </div>
   <%if signed_in?%>
-    <% if current_user.liked? @image%>
-      <%= button_to "Unlike this image", unlike_image_path(@image), method: :delete %>
-    <%else%>
-      <%= button_to "Like this image!", like_image_path(@image) %>
+    <div id= like_button_form>
+      <% if current_user.liked? @image%>
+          <%= button_to "Unlike this image", unlike_image_path(@image), method: :delete %>
+      <%else%>
+          <%= button_to "Like this image!", like_image_path(@image), remote:true %>
     <%end%>
-    <%= form_for([@image, @comment]) do |form| %>
+    </div>
+    <%= form_for([@image, @comment], remote: true) do |form| %>
     <%= form.text_area :body %>
   <%= form.submit "Comment" %>
 <%end%>
@@ -23,7 +27,8 @@
     <% link_to "Sign in", sign_in_path  %> to comment
 <%end%>
 
-<p> <%=pluralize(@image.likes.count, "like") %></p>
 
+<div id="comments">
   <%= render  @comments%>
+</div>
   <%= paginate @comments%>

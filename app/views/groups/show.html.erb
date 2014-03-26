@@ -6,5 +6,10 @@
     <%else%>
       <%= button_to "Join Group", join_group_path(@group) %>
     <%end%>
+    <% if current_user.liked? @group%>
+      <%= button_to "Unlike this group", unlike_group_path(@group), method: :delete %>
+    <%else%>
+      <%= button_to "Like this group!", like_group_path(@group) %>
+    <%end%>
 <%end%>
 <%= render @group.images %>

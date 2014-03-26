@@ -4,12 +4,11 @@ class CommentsController < ApplicationController
 
   def create
     image = Image.find(params[:image_id])
-    comment =image.comments.new(comment_params)
-    if comment.save
-      current_user.notify_followers(comment, 'CommentActivity'
-    redirect_to image
+    @comment =image.comments.new(comment_params)
+    if @comment.save
+      current_user.notify_follower(@comment, 'CommentActivity')
     else
-      redirect_to image, alert: "Cannot comment with an empty comment"
+      alert "Cannot comment with an empty comment"
     end
   end
 
