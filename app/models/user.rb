@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
   include Clearance::User
 
+  has_many :comments, dependent: :destroy
   has_many :activities
   has_many :likes, dependent: :destroy
 
@@ -29,10 +30,12 @@ class User < ActiveRecord::Base
   has_many :followers, through: :follower_relationships
 
   def notify_follower(subject, type)
-    followers.each do |follower|
-      follower.activities.create(
-        subject: subject,
-        type: type)
+    if subject.persisted?
+      followers.each do |follower|
+        follower.activities.create(
+          subject: subject,
+          type: type)
+      end
     end
   end
 

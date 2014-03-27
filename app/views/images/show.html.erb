@@ -12,12 +12,8 @@
     <p><%=pluralize(@image.likes.count, "like")%></p> 
   </div>
   <%if signed_in?%>
-    <div id= like_button_form>
-      <% if current_user.liked? @image%>
-          <%= button_to "Unlike this image", unlike_image_path(@image), method: :delete %>
-      <%else%>
-          <%= button_to "Like this image!", like_image_path(@image), remote:true %>
-    <%end%>
+    <div id= "like_button_form">
+      <%= render "like_button_form", image: @image%>
     </div>
     <%= form_for([@image, @comment], remote: true) do |form| %>
     <%= form.text_area :body %>

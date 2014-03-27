@@ -25,6 +25,8 @@ Pixtr::Application.routes.draw do
     end
   end
 
+  resources :comments, only:[:destroy]
+
   resources :images, except: [:index, :new, :create] do
     resources :comments, only:[:create,:show]
     member do
