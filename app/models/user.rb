@@ -29,19 +29,22 @@ class User < ActiveRecord::Base
 
   has_many :followers, through: :follower_relationships
 
-  def notify_follower(subject, type)
+  def notify_follower(subject, target, type)
     if subject.persisted?
       followers.each do |follower|
         follower.activities.create(
           subject: subject,
-          type: type)
+          type: type,
+          actor: self,
+          target: target)
+        ActivityMailer.activity_email(follower, subject).deliver
       end
     end
   end
 
   def follow(user)
     follow = followed_user_relationships.create(followed_user: user)
-    notify_follower(follow, 'FollowUserActivity')
+    notify_follower(follow, followed_user, 'FollowUserActivity')
   end
 
   def following?(user)
@@ -54,7 +57,7 @@ class User < ActiveRecord::Base
 
   def join(group)
     join_group = group_memberships.create(group: group)
-    notify_follower(join_group, 'JoinGroupActivity')
+    notify_follower(join_group, group, 'JoinGroupActivity')
   end
 
   def member?(group)
@@ -71,7 +74,7 @@ class User < ActiveRecord::Base
 
   def like(target)
     like = likes.create(likable: target)
-    notify_follower(like, 'LikeActivity')
+    notify_follower(like, target, 'LikeActivity')
   end
 
   def unlike(target)

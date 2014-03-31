@@ -18,7 +18,8 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     @gallery = @image.gallery
     @comment = Comment.new
-    @comments = @image.comments.recent.page(params[:page]).per(2)
+
+    @comments = @image.comments.recent.page(params[:page]).per(2).includes(:user)
   end
 
    def edit

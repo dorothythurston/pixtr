@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
     image = Image.find(params[:image_id])
     @comment =image.comments.new(comment_params)
     if @comment.save
-      current_user.notify_follower(@comment, 'CommentActivity')
+      current_user.notify_follower(@comment, image, 'CommentActivity')
     else
       alert "Cannot comment with an empty comment"
     end
