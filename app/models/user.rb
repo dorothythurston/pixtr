@@ -37,10 +37,16 @@ class User < ActiveRecord::Base
           type: type,
           actor: self,
           target: target)
-        ActivityMailer.activity_email(follower, subject).deliver
+        mail(follower, subject)
       end
     end
   end
+  handle_asynchronously :notify_follower
+
+  def mail(followers, subject)
+    ActivityMailer.activity_email(follower, subject)
+  end
+  handle_asynchronously :mail
 
   def follow(user)
     follow = followed_user_relationships.create(followed_user: user)

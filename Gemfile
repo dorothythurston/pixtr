@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'clearance'
+gem 'delayed_job_active_record'
 group :doc do
   gem 'sdoc', require: false
 end
