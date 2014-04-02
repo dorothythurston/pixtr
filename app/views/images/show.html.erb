@@ -8,6 +8,12 @@
   <p><%=@image.description%></p>
   <p> Added by: <%= link_to  @image.user.email, @image.user %></p>
   <p> Added on: <%= @image.created_at.to_date %></p>
+  <p> Tags:</p>
+
+  <%@image.tag_list.each do |tag| %>
+    <%= link_to tag, tag_path(tag) %>
+  <%end%>
+
   <div id= "like_count">
     <p><%=pluralize(@image.likes.count, "like")%></p> 
   </div>

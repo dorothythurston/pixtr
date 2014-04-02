@@ -51,6 +51,7 @@ private
       :name,
       :url,
       :description,
+      :tag_list,
       group_ids: []
     )
   end

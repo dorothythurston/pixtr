@@ -11,6 +11,17 @@ class Image < ActiveRecord::Base
 
   has_many :user_likes, through: :likes, source: :user
 
+  acts_as_taggable # Alias for acts_as_taggable_on :tags
+  acts_as_taggable_on :tag_list
+
+  def self.search(query)
+    where("name ilike ? OR description ilike ?",  "%#{query}%", "%#{query}%")
+  end
+
+  def tag
+    @image.tag_list.add
+  end
+
   def user
     gallery.user
   end

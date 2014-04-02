@@ -17,6 +17,12 @@
   </nav>
   <%end%>
 
+  <%= form_tag("/search", method: "get") do %>
+    <%= label_tag(:search, "Search for image by name:") %>
+    <%= text_field_tag(:search) %>
+    <%= submit_tag("Search") %>
+  <%end%>
+
 <% if signed_in? %>
       Signed in as: <%= current_user.email %>
       <%= link_to 'Sign out', sign_out_path, :method => :delete %>

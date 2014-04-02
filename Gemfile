@@ -10,6 +10,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'clearance'
 gem 'delayed_job_active_record'
+gem 'acts-as-taggable-on'
 group :doc do
   gem 'sdoc', require: false
 end

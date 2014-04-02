@@ -1,5 +1,9 @@
 Pixtr::Application.routes.draw do
   root "homes#show"
+
+  get "/search" => "searches#index"
+  resource :search, only: [:index]
+
   resource :dashboard, only: [:show]
   resources :galleries do
     member do
@@ -26,6 +30,8 @@ Pixtr::Application.routes.draw do
   end
 
   resources :comments, only:[:destroy]
+
+  resources :tags, only:[:show]
 
   resources :images, except: [:index, :new, :create] do
     resources :comments, only:[:create,:show]
