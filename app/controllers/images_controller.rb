@@ -31,7 +31,7 @@ class ImagesController < ApplicationController
     @image = current_user.images.find(params[:id])
     if @image.update(image_params)
     redirect_to @image
-    else 
+    else
       @groups = current_user.groups
       render :edit
     end

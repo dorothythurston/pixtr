@@ -11,11 +11,13 @@ gem 'jbuilder', '~> 1.2'
 gem 'clearance'
 gem 'delayed_job_active_record'
 gem 'acts-as-taggable-on'
+gem 'stripe'
 group :doc do
   gem 'sdoc', require: false
 end
 group :production do
   gem 'rails_12factor'
+  gem 'dotenv-rails'
 end
 
 group :development do

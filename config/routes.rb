@@ -4,6 +4,8 @@ Pixtr::Application.routes.draw do
   get "/search" => "searches#index"
   resource :search, only: [:index]
 
+  resources :charges
+
   resource :dashboard, only: [:show]
   resources :galleries do
     member do

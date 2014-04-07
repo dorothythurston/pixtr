@@ -8,9 +8,14 @@
 </head>
 <body>
   <h1><%= link_to 'Pixtr', root_path %></h1>
-  <% if signed_in?%>
+  <% if signed_in? %>
   <nav>
     <ul>
+      <% if current_user.subscriber? %>
+          <li><%= 'You are a member' %></li>
+      <% else %>
+          <li><%= link_to 'Site Membership', new_charge_path %></li>
+      <% end %>
       <li><%= link_to 'My Galleries', galleries_path %> </li>
       <li><%= link_to 'Groups', groups_path %></li>
    </ul>

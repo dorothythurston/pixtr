@@ -1,5 +1,5 @@
 class GalleriesController < ApplicationController
-
+  respond_to :html
   before_filter :authorize, except: [:show]
   def index
     @galleries = current_user.galleries
@@ -27,16 +27,13 @@ class GalleriesController < ApplicationController
   end
 
   def edit
-    @gallery = current_user.galleries.find(params[:id])
+    @gallery = find_gallery
   end
 
   def update
-    @gallery = current_user.galleries.find(params[:id])
-    if @gallery.update(gallery_params)
-      redirect_to @gallery
-    else
-      render :edit
-     end
+    @gallery = find_gallery
+    @gallery.update(gallery_params)
+    respond_with @gallery
   end
 
   def destroy
@@ -49,6 +46,10 @@ class GalleriesController < ApplicationController
 
   def gallery_params
     params.require(:gallery).permit(:name)
+  end
+
+  def find_gallery
+    current_user.galleries.find(params[:id])
   end
 
 

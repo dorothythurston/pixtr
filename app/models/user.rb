@@ -66,6 +66,14 @@ class User < ActiveRecord::Base
     notify_follower(join_group, group, 'JoinGroupActivity')
   end
 
+  def upgrade(stripe_id)
+    update stripe_id: stripe_id
+  end
+
+  def subscriber?
+    !stripe_id.empty?
+  end
+
   def member?(group)
     group_ids.include? group.id
   end
