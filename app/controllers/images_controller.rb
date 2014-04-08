@@ -8,6 +8,7 @@ class ImagesController < ApplicationController
     @gallery = current_user.galleries.find(params[:gallery_id])
     @image = @gallery.images.create(image_params)
     if @image.save
+      notify(follow, followed_user, 'FollowUserActivity')
       redirect_to @gallery
     else
      render :new

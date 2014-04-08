@@ -1,7 +1,8 @@
 class ImageLikesController < ApplicationController
   def create
     @image = Image.find(params[:id])
-    current_user.like @image
+    like = current_user.like @image
+    notify_follower(like, @image, 'LikeActivity')
     render :change
   end
 

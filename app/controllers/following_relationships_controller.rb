@@ -1,7 +1,8 @@
 class FollowingRelationshipsController < ApplicationController
   def create
     followed_user  = User.find(params[:id])
-    current_user.follow followed_user
+    follow =  current_user.follow followed_user
+    notify(follow, followed_user, 'FollowUserActivity')
     redirect_to followed_user
   end
 
